@@ -11,8 +11,10 @@ const path = require('path');
 const app = express();
 app.use(cors());
 
-// Servir arquivos estáticos do Frontend (Pasta dist)
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// Rota básica para checagem do Render
+app.get('/', (req, res) => {
+  res.send('Poker Backend Online!');
+});
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -457,10 +459,7 @@ io.on('connection', (socket) => {
 
 });
 
-// Middleware Final: Se nenhuma rota acima (como arquivos estáticos) pegou a requisição, manda o index.html
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-});
+
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
